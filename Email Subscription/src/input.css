@@ -1,0 +1,4 @@
+@import "tailwindcss";
+.msg {
+  color: green;
+}
