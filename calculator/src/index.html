@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <title>Calculator</title>
+    <link
+      rel="shortcut icon"
+      href="./favicon/calculator.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body class="flex justify-center h-screen items-center">
+    <div
+      class="bg-gray-400 w-fit flex flex-col items-center gap-4 p-[30px] rounded-md"
+    >
+      <input
+        id="display"
+        name="display"
+        type="text"
+        class="w-full outline-none font-bold text-[20px] h-[30px] shadow-md p-[30px] rounded-md"
+      />
+      <div class="flex gap-4 mt-[30px]">
+        <input
+          onclick="display.value = '' "
+          type="button"
+          value="AC"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value = display.value.toString().slice(0,-1) "
+          type="button"
+          value="DE"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '.' "
+          type="button"
+          value="."
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '/' "
+          type="button"
+          value="/"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+      </div>
+
+      <div class="flex gap-4">
+        <input
+          onclick="display.value += '7' "
+          type="button"
+          value="7"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '8' "
+          type="button"
+          value="8"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '9' "
+          type="button"
+          value="9"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '*' "
+          type="button"
+          value="*"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+      </div>
+
+      <div class="flex gap-4">
+        <input
+          onclick="display.value += '4' "
+          type="button"
+          value="4"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '5' "
+          type="button"
+          value="5"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '6' "
+          type="button"
+          value="6"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '-' "
+          type="button"
+          value="-"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+      </div>
+
+      <div class="flex gap-4">
+        <input
+          onclick="display.value += '1' "
+          type="button"
+          value="1"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '2' "
+          type="button"
+          value="2"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '3' "
+          type="button"
+          value="3"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '+' "
+          type="button"
+          value="+"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+      </div>
+
+      <div class="flex gap-4">
+        <input
+          onclick="display.value += '00' "
+          type="button"
+          value="00"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value += '0' "
+          type="button"
+          value="0"
+          class="p-[10px] w-[70px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+        <input
+          onclick="display.value = eval(display.value) "
+          type="button"
+          value="="
+          class="p-[10px] w-[155px] h-[70px] bg-orange-200 rounded-md shadow-md cursor-pointer font-bold text-shadow-sm"
+        />
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
