@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.false {
+  border: 2px solid red;
+}
+
+.ture {
+  border: 2px solid green;
+}

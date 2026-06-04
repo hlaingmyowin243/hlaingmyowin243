@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <title>Guess number</title>
+    <link
+      rel="shortcut icon"
+      href="./favicon/Guess number.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <main class="flex justify-center h-screen w-full bg-white items-center">
+      <div
+        id="divColor"
+        class="bg-gray-200 w-[500px] py-[80px] flex justify-center flex-col items-center relative"
+      >
+        <p class="w-[80%] text-center font-semibold text-xl">
+          I am thinking of a number between 1-50. Can you guess it bro?
+        </p>
+        <input
+          id="guessNumberInput"
+          type="text"
+          class="mt-10 outline-none border border-blue-500 p-2"
+          placeholder="Guess number"
+        />
+        <button
+          id="guessBtn"
+          class="py-2 px-6 bg-blue-500 rounded-2xl text-white mt-3 cursor-pointer"
+        >
+          Guess
+        </button>
+        <div class="mt-10 flex flex-col items-center">
+          <p id="msg1"></p>
+          <p id="msg2"></p>
+          <p id="msg3"></p>
+        </div>
+        <button
+          id="restartBtn"
+          class="absolute bottom-2 right-2 py-2 px-6 bg-green-400 rounded-2xl cursor-pointer text-white"
+        >
+          Restart Game
+        </button>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
