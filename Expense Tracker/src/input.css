@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+.incomeform {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.expenseform {
+  opacity: 1;
+  pointer-events: all;
+}
