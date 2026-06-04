@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <link
+      rel="shortcut icon"
+      href="favicon/google-forms.png"
+      type="image/x-icon"
+    />
+    <title>Form Validation</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body class="flex justify-center h-screen items-center bg-gray-500">
+    <div
+      action=""
+      class="w-[500px] bg-gray-300 flex flex-col justify-center items-center relative p-[30px]"
+    >
+      <img
+        src="./asset/bubble-chat.png"
+        alt=""
+        class="w-[50px] absolute top-[-20px]"
+      />
+
+      <!--full name-->
+      <div class="mt-[30px] flex flex-col items-start w-full gap-3">
+        <label for="">Full Name</label>
+        <input
+          type="text"
+          name=""
+          id="userName"
+          placeholder="Enter your name"
+          class="outline-none border-b w-full"
+        />
+        <span class="text-sm text-red-500" id="nameerror"></span>
+      </div>
+      <!--full name-->
+
+      <!--phone no-->
+      <div class="mt-[30px] flex flex-col items-start w-full gap-3">
+        <label for="">Phone No</label>
+        <input
+          type="number"
+          name=""
+          id="PhoneNumber"
+          placeholder="123 456 7890"
+          class="outline-none border-b w-full"
+        />
+        <span class="text-sm text-red-500" id="phoneerror"></span>
+      </div>
+      <!--phone no-->
+
+      <!--eamil-->
+      <div class="mt-[30px] flex flex-col items-start w-full gap-3">
+        <label for="">Email</label>
+        <input
+          type="email"
+          name=""
+          id="email"
+          placeholder="Enter email"
+          class="outline-none border-b w-full"
+        />
+        <span class="text-sm text-red-500" id="emailerror"></span>
+      </div>
+      <!--eamil-->
+
+      <!--massage-->
+      <div class="mt-[30px] flex flex-col items-start w-full gap-3">
+        <label for="">Your Message</label>
+        <textarea
+          name=""
+          id="message"
+          placeholder="Enter message"
+          class="outline-none border-b w-full"
+        ></textarea>
+        <span class="text-sm text-red-500" id="messageerror"></span>
+      </div>
+      <!--massage-->
+
+      <button
+        id="submitBtn"
+        class="py-[10px] px-[30px] rounded-sm bg-gray-800 text-white cursor-pointer"
+      >
+        Login
+      </button>
+      <div class="w-full">
+        <p class="text-red-500" id="fixerror"></p>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
