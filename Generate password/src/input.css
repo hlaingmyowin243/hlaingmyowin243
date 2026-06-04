@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+.container {
+  animation: shake 0.5s 3;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(3px);
+  }
+  25% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <title>Generate password</title>
+  </head>
+  <body class="bg-gray-800 h-screen w-full flex items-center">
+    <div class="ml-50">
+      <p class="text-white font-semibold text-4xl">Generate a</p>
+      <p class="text-green-400 text-4xl">Random Password</p>
+      <div class="h-1 w-75 bg-green-400"></div>
+      <div class="bg-white w-125 mt-10 flex items-center" id="container">
+        <input
+          id="passwordBox"
+          type="text"
+          class="w-full p-5 outline-none"
+          placeholder="Password"
+        />
+        <img
+          src="./asset/copy.png"
+          alt=""
+          class="w-10 mr-3 cursor-pointer"
+          id="copyImg"
+        />
+      </div>
+      <button
+        id="GenerateBtn"
+        class="flex items-center mt-10 bg-green-500 rounded-md p-2 gap-2 text-white cursor-pointer"
+      >
+        <img src="./asset/flash.png" alt="" class="w-10" />
+        <p>Generate Password</p>
+      </button>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
