@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.darkmode {
+  background-color: black;
+  color: white;
+}
+
+body {
+  transition: all 0.3s linear;
+}
