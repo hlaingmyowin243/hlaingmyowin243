@@ -332,84 +332,156 @@ fahrenheitBtn.addEventListener("click", () => {
 });
 
 locationBtn.addEventListener("click", () => {
-  autocompleteDropdown.classList.add("hidden");
+  hideDropdown();
   checkWeather(searchCity.value);
 });
 
-// Allow Enter key to search
+// Allow Enter key to search (when no autocomplete item is active)
 searchCity.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    autocompleteDropdown.classList.add("hidden");
-    checkWeather(searchCity.value);
+  const items = autocompleteDropdown.querySelectorAll(".autocomplete-item");
+  const hasItems = items.length > 0;
+
+  if (e.key === "ArrowDown" && hasItems) {
+    e.preventDefault();
+    activeIndex = Math.min(activeIndex + 1, items.length - 1);
+    updateActiveItem(items);
+  } else if (e.key === "ArrowUp" && hasItems) {
+    e.preventDefault();
+    activeIndex = Math.max(activeIndex - 1, 0);
+    updateActiveItem(items);
+  } else if (e.key === "Enter") {
+    e.preventDefault();
+    if (activeIndex >= 0 && activeIndex < items.length) {
+      items[activeIndex].click();
+    } else {
+      hideDropdown();
+      checkWeather(searchCity.value);
+    }
+  } else if (e.key === "Escape") {
+    hideDropdown();
+    searchCity.blur();
   }
 });
 
 // ============ AUTOCOMPLETE ============
 let debounceTimer = null;
+let activeIndex = -1;
+let currentCities = [];
+
+const showDropdown = () => {
+  autocompleteDropdown.classList.add("show");
+};
+
+const hideDropdown = () => {
+  autocompleteDropdown.classList.remove("show");
+  activeIndex = -1;
+};
+
+const updateActiveItem = (items) => {
+  items.forEach((item, i) => {
+    item.classList.toggle("active", i === activeIndex);
+  });
+  // Scroll active item into view
+  if (activeIndex >= 0 && items[activeIndex]) {
+    items[activeIndex].scrollIntoView({ block: "nearest" });
+  }
+};
 
 searchCity.addEventListener("input", (e) => {
   const query = e.target.value.trim();
   clearTimeout(debounceTimer);
+  activeIndex = -1;
 
   if (query.length < 2) {
-    autocompleteDropdown.classList.add("hidden");
+    hideDropdown();
     autocompleteDropdown.innerHTML = "";
     return;
   }
+
+  // Show loading state
+  autocompleteDropdown.innerHTML = `
+    <div class="autocomplete-loading">
+      <div class="spinner"></div>
+      <span>Searching cities...</span>
+    </div>
+  `;
+  showDropdown();
 
   debounceTimer = setTimeout(() => fetchCitySuggestions(query), 300);
 });
 
 const fetchCitySuggestions = async (query) => {
   try {
-    const response = await fetch(GEO_API + query);
+    const response = await fetch(GEO_API + encodeURIComponent(query));
     if (!response.ok) throw new Error("Geocoding failed");
 
     const cities = await response.json();
+    currentCities = cities;
+    activeIndex = -1;
+
     if (cities.length === 0) {
-      autocompleteDropdown.classList.add("hidden");
+      autocompleteDropdown.innerHTML = `
+        <div class="autocomplete-no-results">
+          No cities found for "${query}"
+        </div>
+      `;
+      showDropdown();
       return;
     }
 
     autocompleteDropdown.innerHTML = "";
-    autocompleteDropdown.classList.remove("hidden");
+    showDropdown();
 
-    cities.forEach((city) => {
+    cities.forEach((cityData, index) => {
       const item = document.createElement("div");
       item.className = "autocomplete-item";
 
-      const stateStr = city.state ? city.state + ", " : "";
+      const stateStr = cityData.state ? cityData.state + ", " : "";
 
       item.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="flex-shrink:0; opacity:0.5">
           <path fill="currentColor" d="M12 12q.825 0 1.413-.587T14 10t-.587-1.412T12 8t-1.412.588T10 10t.588 1.413T12 12m0 7.35q3.05-2.8 4.525-5.087T18 10.2q0-2.725-1.737-4.462T12 4T7.738 5.738T6 10.2q0 1.775 1.475 4.063T12 19.35M12 22q-4.025-3.425-6.012-6.362T4 10.2q0-3.75 2.413-5.975T12 2t5.588 2.225T20 10.2q0 2.5-1.987 5.438T12 22m0-12"/>
         </svg>
         <div>
-          <div class="city-name">${city.name}</div>
-          <div class="city-detail">${stateStr}${city.country}</div>
+          <div class="city-name">${cityData.name}</div>
+          <div class="city-detail">${stateStr}${cityData.country}</div>
         </div>
       `;
 
       item.addEventListener("click", () => {
-        searchCity.value = city.name;
-        autocompleteDropdown.classList.add("hidden");
+        searchCity.value = cityData.name;
+        hideDropdown();
         autocompleteDropdown.innerHTML = "";
-        // Use precise coordinates instead of name to ensure correct city
-        fetchWeatherByCoords(city.lat, city.lon);
+        fetchWeatherByCoords(cityData.lat, cityData.lon);
       });
 
       autocompleteDropdown.appendChild(item);
     });
   } catch (error) {
     console.log("Autocomplete error:", error.message);
+    autocompleteDropdown.innerHTML = `
+      <div class="autocomplete-no-results">
+        Failed to fetch suggestions
+      </div>
+    `;
   }
 };
 
-// Close dropdown when clicking outside
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".relative")) {
-    autocompleteDropdown.classList.add("hidden");
+// Close dropdown when clicking outside — use mousedown so it fires before blur
+document.addEventListener("mousedown", (e) => {
+  if (!e.target.closest("#searchCity") && !e.target.closest("#autocompleteDropdown")) {
+    hideDropdown();
   }
+});
+
+// Also hide on focus loss (e.g. tab away)
+searchCity.addEventListener("blur", (e) => {
+  // Delay to allow click on autocomplete item to register
+  setTimeout(() => {
+    if (!autocompleteDropdown.matches(":hover")) {
+      hideDropdown();
+    }
+  }, 150);
 });
 
 // Fetch weather and forecast using precise coordinates
