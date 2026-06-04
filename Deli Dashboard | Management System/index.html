@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deli Dashboard | Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i data-lucide="package"></i>
+                <span class="logo-text">DeliService</span>
+            </div>
+            <button class="btn-icon toggle-sidebar" id="toggleSidebar">
+                <i data-lucide="chevron-left" id="toggleIcon"></i>
+            </button>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" id="navDashboard" title="Deliveries">
+                        <i data-lucide="truck"></i>
+                        <span class="link-text">Deliveries</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="navServices" title="Delivery Services">
+                        <i data-lucide="building-2"></i>
+                        <span class="link-text">Delivery Services</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="navReports" title="Reports">
+                        <i data-lucide="bar-chart-3"></i>
+                        <span class="link-text">Reports</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="theme-toggle-btn" id="themeToggle" title="Toggle Theme">
+                <i data-lucide="sun" id="themeIcon"></i>
+                <span class="link-text" id="themeLabel">Day Mode</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+        <!-- ===== Deliveries View ===== -->
+        <div id="dashboardView">
+            <header>
+                <h1>Operations Overview</h1>
+                <button class="btn btn-primary" id="newDeliveryBtn">
+                    <i data-lucide="plus"></i>
+                    New Delivery
+                </button>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Pending Orders</span>
+                    <span class="stat-value" id="pendingCount">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Completed</span>
+                    <span class="stat-value" id="completeCount">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Cancelled</span>
+                    <span class="stat-value" id="cancelledCount">0</span>
+                </div>
+            </div>
+
+            <section class="delivery-management">
+                <div class="controls">
+                    <input type="text" id="searchInput" class="search-input"
+                        placeholder="Search orders, customers, zones...">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="all">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Complete">Complete</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <!-- Excel-style delivery detail cards rendered by JS -->
+                <div id="deliveryCards"></div>
+            </section>
+        </div>
+
+        <!-- ===== Delivery Services View ===== -->
+        <div id="servicesView" style="display: none;">
+            <header>
+                <h1>Delivery Services Directory</h1>
+                <button class="btn btn-primary" id="addServiceBtn">
+                    <i data-lucide="plus"></i>
+                    Add Delivery Service
+                </button>
+            </header>
+
+            <!-- Zone A -->
+            <div class="zone-section">
+                <h2 class="zone-title zone-a-title"><span class="zone-dot zone-dot-a"></span> Zone A — Main City Area
+                </h2>
+                <div class="table-container excel-table">
+                    <table>
+                        <thead class="zone-a-header">
+                            <tr>
+                                <th style="width:40px;">NO</th>
+                                <th>DELIVERY SERVICE</th>
+                                <th>REMARKS / ADDRESS</th>
+                                <th>LOCATION</th>
+                                <th>CONTACT PHONE</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zoneABody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Zone B -->
+            <div class="zone-section">
+                <h2 class="zone-title zone-b-title"><span class="zone-dot zone-dot-b"></span> Zone B — Outer Suburbs
+                </h2>
+                <div class="table-container excel-table">
+                    <table>
+                        <thead class="zone-b-header">
+                            <tr>
+                                <th style="width:40px;">NO</th>
+                                <th>DELIVERY SERVICE</th>
+                                <th>REMARKS / ADDRESS</th>
+                                <th>LOCATION</th>
+                                <th>CONTACT PHONE</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zoneBBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Zone C -->
+            <div class="zone-section">
+                <h2 class="zone-title zone-c-title"><span class="zone-dot zone-dot-c"></span> Zone C — Extended Reach
+                </h2>
+                <div class="table-container excel-table">
+                    <table>
+                        <thead class="zone-c-header">
+                            <tr>
+                                <th style="width:40px;">NO</th>
+                                <th>DELIVERY SERVICE</th>
+                                <th>REMARKS / ADDRESS</th>
+                                <th>LOCATION</th>
+                                <th>CONTACT PHONE</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zoneCBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Service Notes -->
+            <div id="serviceNotes" class="service-notes-container"></div>
+        </div>
+
+        <!-- ===== Reports View ===== -->
+        <div id="reportsView" style="display: none;">
+            <header>
+                <h1>Delivery Reports</h1>
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                    <span class="badge badge-complete">Summary by Date</span>
+                    <button class="btn btn-primary" id="exportPdfBtn">
+                        <i data-lucide="download"></i>
+                        Export PDF
+                    </button>
+                </div>
+            </header>
+            <div id="reportsContainer"></div>
+
+            <!-- Summary Panel -->
+            <div class="report-summary-panel" id="reportSummaryPanel">
+                <h3 class="summary-panel-title">Overall Summary</h3>
+                <div class="summary-cards">
+                    <div class="summary-card summary-pending">
+                        <div class="summary-card-value" id="summaryPending">0</div>
+                        <div class="summary-card-label">Total Pending</div>
+                    </div>
+                    <div class="summary-card summary-complete">
+                        <div class="summary-card-value" id="summaryComplete">0</div>
+                        <div class="summary-card-label">Total Complete</div>
+                    </div>
+                    <div class="summary-card summary-cancelled">
+                        <div class="summary-card-value" id="summaryCancelled">0</div>
+                        <div class="summary-card-label">Total Cancelled</div>
+                    </div>
+                    <div class="summary-card summary-cod">
+                        <div class="summary-card-value" id="summaryCOD">0</div>
+                        <div class="summary-card-label">Total COD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== Modal: New/Edit Delivery ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal excel-modal">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <i data-lucide="file-spreadsheet"></i>
+                    <h2 id="modalTitle">Delivery Entry Form</h2>
+                </div>
+                <button class="btn-icon" id="closeModalBtn">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="deliveryForm">
+                    <input type="hidden" id="editIndex">
+
+                    <!-- Row 1: Logistics -->
+                    <div class="form-section-header-bar">Basic Logistics</div>
+                    <div class="form-row-3">
+                        <div class="form-cell">
+                            <label for="date">Delivery Date</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <div class="form-cell">
+                            <label for="zone">Assigned Zone</label>
+                            <select id="zone">
+                                <option value="Zone A">Zone A</option>
+                                <option value="Zone B">Zone B</option>
+                                <option value="Zone C">Zone C</option>
+                                <option value="N/A">N/A</option>
+                            </select>
+                        </div>
+                        <div class="form-cell">
+                            <label for="status">Current Status</label>
+                            <select id="status">
+                                <option value="Pending">Pending</option>
+                                <option value="Complete">Complete</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Client Info -->
+                    <div class="form-section-header-bar">Client Information</div>
+                    <div class="form-row-2">
+                        <div class="form-cell-group">
+                            <div class="cell-label">Sender (Origin)</div>
+                            <input type="text" placeholder="Full Name" id="fromName" required>
+                            <input type="text" placeholder="Full Address" id="fromAddress">
+                            <input type="text" placeholder="Phone Number" id="fromPhone">
+                        </div>
+                        <div class="form-cell-group">
+                            <div class="cell-label">Receiver (Destination)</div>
+                            <input type="text" placeholder="Full Name" id="toName" required>
+                            <input type="text" placeholder="Full Address" id="toAddress">
+                            <input type="text" placeholder="Phone Number" id="toPhone">
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Package & Payment -->
+                    <div class="form-section-header-bar">Package & Payment</div>
+                    <div class="form-row-3">
+                        <div class="form-cell">
+                            <label for="kg">Weight (KG)</label>
+                            <input type="number" step="0.1" placeholder="0.0" id="kg">
+                        </div>
+                        <div class="form-cell">
+                            <label for="payer">Payment Responsible</label>
+                            <select id="payer">
+                                <option value="Sender">Sender Pays</option>
+                                <option value="Receiver">Receiver Pays</option>
+                            </select>
+                        </div>
+                        <div class="form-cell">
+                            <label for="paymentMethod">Method</label>
+                            <select id="paymentMethod">
+                                <option value="COD">COD (Cash on Delivery)</option>
+                                <option value="Prepaid">Prepaid</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Service -->
+                    <div class="form-section-header-bar">Service Details</div>
+                    <div class="form-row-2">
+                        <div class="form-cell">
+                            <label for="deliType">Delivery Speed</label>
+                            <select id="deliType">
+                                <option value="Normal">Normal</option>
+                                <option value="Urgent">Urgent</option>
+                            </select>
+                        </div>
+                        <div class="form-cell">
+                            <label for="serviceName">Associated Service</label>
+                            <input type="text" placeholder="Service Name" id="serviceName">
+                        </div>
+                    </div>
+
+                    <!-- Row 5: Notes -->
+                    <div class="form-section-header-bar">Additional Notes</div>
+                    <div class="form-row-1">
+                        <div class="form-cell">
+                            <textarea id="comments" rows="2"
+                                placeholder="Special instructions or comments..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary excel-save-btn">
+                            <i data-lucide="save"></i>
+                            Commit Data to Registry
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: Add Service ===== -->
+    <div class="modal-overlay" id="serviceModalOverlay">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <i data-lucide="building-2"></i>
+                    <h2>Add Delivery Service</h2>
+                </div>
+                <button class="btn-icon" id="closeServiceModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 1.5rem;">
+                <form id="serviceForm">
+                    <div class="form-cell" style="margin-bottom: 1rem;">
+                        <label for="svcName">Service Name</label>
+                        <input type="text" id="svcName" required placeholder="e.g. Express Deli">
+                    </div>
+                    <div class="form-cell" style="margin-bottom: 1rem;">
+                        <label for="svcAddress">Address / Remarks</label>
+                        <input type="text" id="svcAddress" placeholder="e.g. 32St, Bet 62~63">
+                    </div>
+                    <div class="form-row-2" style="margin-bottom: 1rem;">
+                        <div class="form-cell">
+                            <label for="svcZone">Zone</label>
+                            <select id="svcZone">
+                                <option value="Zone A">Zone A</option>
+                                <option value="Zone B">Zone B</option>
+                                <option value="Zone C">Zone C</option>
+                            </select>
+                        </div>
+                        <div class="form-cell">
+                            <label for="svcLocation">Location</label>
+                            <input type="text" id="svcLocation" placeholder="e.g. Chan Aye Thar Zan">
+                        </div>
+                    </div>
+                    <div class="form-cell" style="margin-bottom: 1rem;">
+                        <label for="svcPhone">Contact Phone</label>
+                        <input type="text" id="svcPhone" placeholder="e.g. 09-786606604">
+                    </div>
+                    <div class="form-cell" style="margin-bottom: 1rem;">
+                        <label for="svcNotes">Service Notes</label>
+                        <textarea id="svcNotes" rows="3"
+                            placeholder="e.g. Urgent available, Cash on delivery..."></textarea>
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i data-lucide="plus"></i>
+                            Add Service
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>
