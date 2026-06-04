@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <link
+      rel="shortcut icon"
+      href="./favicon/online-shopping.png"
+      type="image/x-icon"
+    />
+    <style>
+      #searchDropdown {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, opacity 0.2s ease;
+        pointer-events: none;
+      }
+      #searchDropdown.show {
+        max-height: 300px;
+        opacity: 1;
+        overflow-y: auto;
+        pointer-events: auto;
+      }
+      .autocomplete-item {
+        padding: 10px 16px;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background 0.2s ease;
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+      }
+      .autocomplete-item:hover,
+      .autocomplete-item.active {
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .autocomplete-item .city-name {
+        font-weight: 500;
+      }
+    </style>
+  <body class="flex justify-center items-center flex-col">
+    <div class="w-[70%] mt-5">
+      <div class="flex items-center gap-3 p-3 cursor-pointer">
+        <img src="./asset/store.png" alt="" class="w-[40px]" />
+        <p class="text-2xl font-semibold text-blue-400">Mac store</p>
+      </div>
+          <div class="relative w-full max-w-md">
+            <input id="searchProduct" type="text" placeholder="Search products..." class="w-full p-2 rounded-md bg-white/10 text-white placeholder-gray-300 focus:outline-none" />
+            <div id="searchDropdown" class="absolute top-full left-0 w-full mt-1 bg-white/10 backdrop-blur-md rounded-md hidden z-10"></div>
+          </div>
+      <div class="w-full h-[1px] bg-blue-500"></div>
+      <div class="flex justify-between mt-3">
+        <!--card container-->
+        <div
+          class="w-[50%] grid grid-cols-2 gap-5 h-fit"
+          id="cart-container"
+        ></div>
+        <!--card container-->
+
+        <!--right-->
+        <div class="w-[400px] border border-gray-300 rounded-md p-4 h-fit">
+          <div class="flex gap-4 items-center justify-between relative">
+            <p class="font-semibold text-2xl text-blue-400">Cart list</p>
+            <svg
+              class="text-blue-400"
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M7 22q-.825 0-1.412-.587T5 20t.588-1.412T7 18t1.413.588T9 20t-.587 1.413T7 22m10 0q-.825 0-1.412-.587T15 20t.588-1.412T17 18t1.413.588T19 20t-.587 1.413T17 22M5.2 4h14.75q.575 0 .875.513t.025 1.037l-3.55 6.4q-.275.5-.737.775T15.55 13H8.1L7 15h12v2H7q-1.125 0-1.7-.987t-.05-1.963L6.6 11.6L3 4H1V2h3.25z"
+              />
+            </svg>
+            <div
+              id="totalNum"
+              class="absolute right-[-10px] top-[-10px] bg-red-500 w-[20px] h-[20px] rounded-[50%] text-xs flex justify-center items-center text-white"
+            >
+              0
+            </div>
+          </div>
+          <div
+            class="flex gap-13 font-semibold border-y-gray-400 border-y py-2 mt-3 items-center"
+          >
+            <p class="pr-7">Item</p>
+            <p>Price</p>
+            <p>Quantity</p>
+          </div>
+
+          <!--product list items-->
+          <div class="mt-2" id="cartsTable"></div>
+          <!--product list items-->
+          <div
+            class="flex justify-between mt-10 border-y border-y-black py-2 text-blue-400"
+          >
+            <p class="font-semibold">Total Price</p>
+            <p id="totalPrice" class="">0</p>
+          </div>
+        </div>
+      </div>
+      <!--right-->
+    </div>
+    <script src="product.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

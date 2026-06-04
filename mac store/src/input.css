@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+.cart {
+  border: 1px solid rgb(200, 200, 200);
+  padding: 20px;
+  height: fit-content;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.price {
+  color: rgb(67, 67, 67);
+  font-weight: 400;
+}
+
+.btn {
+  padding: 5px 15px;
+  background-color: rgba(61, 61, 249, 0.789);
+  border-radius: 5px;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.listDiv {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  justify-content: space-between;
+  padding: 0px 5px;
+  margin: 5px 0px;
+}
+
+.quantityDiv {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.choicedimage {
+  width: 60px;
+}
+
+.price {
+  padding-right: 13px;
+}
+
+.action {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(70, 70, 244);
+  border-radius: 50%;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+}
+
+.deleteDiv {
+  width: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.p {
+  text-align: center;
+  color: red;
+  font-weight: 500;
+}
